@@ -26,15 +26,15 @@ pensa/
 │       │   ├── java/soqe/pensa/api/
 │       │   │   ├── PensaApiApplication.java   # Entry point
 │       │   │   ├── common/                    # Base entities, audit config
-│       │   │   ├── workspaces/                # Workspace, WorkspaceMember, WorkspaceRole
-│       │   │   ├── projects/                  # Project, ProjectMember, ProjectRole
-│       │   │   ├── sections/                  # Section
-│       │   │   ├── items/                     # Item (task/issue, sub-task)
-│       │   │   ├── comments/                  # Comment
-│       │   │   ├── attachments/               # Attachment
-│       │   │   ├── labels/                    # Label
-│       │   │   ├── activities/                # Activity log
-│       │   │   └── users/                     # User
+│       │   │   ├── workspace/                 # Workspace, WorkspaceMember, WorkspaceRole
+│       │   │   ├── project/                   # Project, ProjectMember, ProjectRole
+│       │   │   ├── section/                   # Section
+│       │   │   ├── item/                      # Item (task/issue, sub-task)
+│       │   │   ├── comment/                   # Comment
+│       │   │   ├── attachment/                # Attachment
+│       │   │   ├── label/                     # Label
+│       │   │   ├── activity/                  # Activity log
+│       │   │   └── user/                      # User
 │       │   └── resources/
 │       │       ├── application.yaml
 │       │       └── db/migration/              # Flyway SQL migrations (V{n}__{desc}.sql)
