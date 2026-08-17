@@ -1,4 +1,4 @@
-package soqe.pensa.api.subscription;
+package soqe.pensa.api.billing;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,15 +25,14 @@ public class Subscription extends SoftDeletableEntity {
     @Column(name = "workspace_id", nullable = false, unique = true)
     private UUID workspaceId;
 
-    @Column(name = "customer_id")
-    private String customerId;
+    @Column(name = "plan_id", nullable = false)
+    private UUID planId;
 
-    @Column(name = "subscription_id")
-    private String subscriptionId;
+    @Column(name = "stripe_customer_id")
+    private String stripeCustomerId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "plan", nullable = false)
-    private WorkspacePlan plan = WorkspacePlan.FREE;
+    @Column(name = "stripe_subscription_id")
+    private String stripeSubscriptionId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)

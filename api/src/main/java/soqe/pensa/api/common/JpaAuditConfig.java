@@ -11,22 +11,24 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import java.util.Optional;
 import java.util.UUID;
 
+import soqe.pensa.api.user.User;
+import soqe.pensa.api.user.UserRepository;
+import org.springframework.context.annotation.Lazy;
+
 @Configuration
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")
 public class JpaAuditConfig {
 
     @Bean
-    public AuditorAware<UUID> springSecurityAuditorAware() {
+    public AuditorAware<UUID> springSecurityAuditorAware(@Lazy UserRepository userRepository) {
         return () -> Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
                 .filter(Authentication::isAuthenticated)
                 .map(Authentication::getPrincipal)
                 .filter(principal -> principal instanceof Jwt)
-                .map(principal -> {
-                    try {
-                        return UUID.fromString(((Jwt) principal).getSubject());
-                    } catch (IllegalArgumentException e) {
-                        return null;
-                    }
+                .flatMap(principal -> {
+                    String clerkId = ((Jwt) principal).getSubject();
+                    if (clerkId == null) return Optional.empty();
+                    return userRepository.findByClerkId(clerkId).map(User::getId);
                 });
     }
 }

@@ -1,7 +1,8 @@
-package soqe.pensa.api.subscription;
+package soqe.pensa.api.billing;
 
 public enum SubscriptionStatus {
     ACTIVE,
+    PAST_DUE,
     CANCELED,
-    PAST_DUE
+    TRIALING
 }

@@ -25,6 +25,9 @@ public class Label extends AuditableEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "color")
-    private String color;
+    @Column(name = "background_color")
+    private String backgroundColor;
+
+    @Column(name = "text_color")
+    private String textColor;
 }

@@ -17,6 +17,9 @@ import soqe.pensa.api.common.SoftDeletableEntity;
 @SQLRestriction("deleted_at IS NULL")
 public class User extends SoftDeletableEntity {
 
+    @Column(name = "clerk_id", unique = true)
+    private String clerkId;
+
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
@@ -31,4 +34,8 @@ public class User extends SoftDeletableEntity {
 
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
+
+    @jakarta.persistence.Enumerated(jakarta.persistence.EnumType.STRING)
+    @Column(name = "system_role", nullable = false)
+    private SystemRole systemRole = SystemRole.USER;
 }

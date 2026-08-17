@@ -1,8 +1,7 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Biểu tượng Pensa Favicon -->
-  <path d="M9 26V11C9 6.58172 12.5817 3 17 3C21.4183 3 25 6.58172 25 11C25 15.4183 21.4183 19 17 19H9" 
-        stroke="#0284C7" 
-        stroke-width="4.5" 
-        stroke-linecap="round" 
+  <path d="M9 26V11C9 6.58172 12.5817 3 17 3C21.4183 3 25 6.58172 25 11C25 15.4183 21.4183 19 17 19H9"
+        stroke="#0284C7"
+        stroke-width="4.5"
+        stroke-linecap="round"
         stroke-linejoin="round"/>
 </svg>

@@ -1,4 +1,4 @@
-package soqe.pensa.api.subscription;
+package soqe.pensa.api.billing;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.Setter;
 import soqe.pensa.api.common.AuditableEntity;
 
-import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -21,14 +20,17 @@ public class Invoice extends AuditableEntity {
     @Column(name = "workspace_id", nullable = false)
     private UUID workspaceId;
 
-    @Column(name = "invoice_id", nullable = false, unique = true)
-    private String invoiceId;
+    @Column(name = "stripe_invoice_id", nullable = false, unique = true)
+    private String stripeInvoiceId;
 
-    @Column(name = "amount", nullable = false)
-    private Long amount;
+    @Column(name = "amount_due", nullable = false)
+    private Long amountDue;
+
+    @Column(name = "amount_paid")
+    private Long amountPaid;
 
     @Column(name = "currency", nullable = false)
-    private String currency;
+    private String currency = "USD";
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -36,7 +38,4 @@ public class Invoice extends AuditableEntity {
 
     @Column(name = "hosted_invoice_url")
     private String hostedInvoiceUrl;
-
-    @Column(name = "paid_at")
-    private Instant paidAt;
 }

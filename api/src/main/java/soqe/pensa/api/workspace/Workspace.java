@@ -10,8 +10,6 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import soqe.pensa.api.common.SoftDeletableEntity;
-import soqe.pensa.api.subscription.WorkspacePlan;
-import soqe.pensa.api.subscription.SubscriptionStatus;
 
 import java.util.UUID;
 
@@ -42,13 +40,6 @@ public class Workspace extends SoftDeletableEntity {
     @Column(name = "visibility", nullable = false)
     private WorkspaceVisibility visibility = WorkspaceVisibility.PRIVATE;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "plan", nullable = false)
-    private WorkspacePlan plan = WorkspacePlan.FREE;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "subscription_status", nullable = false)
-    private SubscriptionStatus subscriptionStatus = SubscriptionStatus.ACTIVE;
 
     @Column(name = "settings", columnDefinition = "jsonb")
     private String settings;
