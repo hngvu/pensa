@@ -41,6 +41,6 @@ public class Workspace extends SoftDeletableEntity {
     private WorkspaceVisibility visibility = WorkspaceVisibility.PRIVATE;
 
 
-    @Column(name = "settings", columnDefinition = "jsonb")
+    @Column(name = "settings")
     private String settings;
 }

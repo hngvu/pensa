@@ -1,96 +1,29 @@
-# Pensa
+<p align="center">
+<img src="web/public/wordmark_logo.svg" alt="Pensa" height="120" />
+</p>
 
-Pensa is a full-stack project management platform inspired by tools like Linear and Jira. The system supports multi-user workspaces, role-based member permissions, section-based project/task management, labeling, commenting, file attachments, and real-time activity via WebSocket.
+___
 
-## Architecture Overview
+<p align="center">
+  <strong>The intuitive workspace for ambitious teams — plan, track, and execute at the speed of thought</strong>
+</p>
 
-```
-pensa/
-├── api/    # Backend – Spring Boot (Java 21)
-└── web/    # Frontend – React 19 + Vite + TypeScript
-```
+<p align="center">
+    <a href="./LICENSE">
+        <img src="https://img.shields.io/badge/license-MIT-blue.svg" />
+    </a>
+</p>
 
-| Layer    | Technology                                                                |
-|----------|---------------------------------------------------------------------------|
-| Backend  | Java 21, Spring Boot 4.1, Spring Security (OAuth2 Resource Server), Spring Data JPA, Flyway, WebSocket |
-| Database | PostgreSQL                                                                |
-| Frontend | React 19, TypeScript 6, Vite 8                                            |
-| API Docs | SpringDoc OpenAPI 3                                                       |
+## What is Pensa
 
----
+Pensa empowers modern teams to plan, track, and execute projects with absolute clarity. Designed as an intuitive alternative to complex enterprise tools, the platform provides a frictionless experience for managing workflows, organizing tasks, and collaborating in real-time — all within beautifully crafted workspaces. Built to help teams stay focused, move faster, and do their best work without the administrative overhead.
 
-## System Requirements
+## Features
 
-- **Java** 21+
-- **Maven** 3.9+ (or use the included `mvnw` wrapper)
-- **Node.js** 20+ and **npm** 10+
-- **PostgreSQL** 15+
-- **Identity Provider** compatible with OAuth2/OIDC (e.g., Keycloak, Auth0)
-
----
-
-## Installation & Local Setup
-
-### 1. Database
-
-Create a PostgreSQL database:
-```sql
-CREATE DATABASE pensa;
-```
-
-Flyway will automatically run the migrations when the server starts.
-
-### 2. Backend (`api/`)
-
-Configure `api/src/main/resources/application.yaml` with your database credentials and OAuth2 issuer information:
-
-```yaml
-spring:
-  application:
-    name: api
-  datasource:
-    url: jdbc:postgresql://localhost:5432/pensa
-    username: <db_user>
-    password: <db_password>
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: <your-oauth2-issuer-uri>
-```
-
-Run the server:
-```bash
-cd api
-./mvnw spring-boot:run
-```
-
-The server will start at `http://localhost:8080`.
-
-### 3. Frontend (`web/`)
-
-```bash
-cd web
-npm install
-npm run dev
-```
-
-The frontend will start at `http://localhost:5173`.
-
----
-
-## Key Features
-
-- **Workspace & Project Management**: Create and manage multiple workspaces and projects.
-- **User Permissions**: Flexible role-based access control (RBAC) system (Owner, Admin, Member, Guest).
-- **Task/Issue Management**: Create, edit, and track task progress using sections (To Do, In Progress, Done). Supports parent/child tasks.
-- **Real-time Interaction**: Receive instant notifications and data updates via WebSocket.
-- **Attachments & Comments**: Upload files and discuss tasks through comments on each item.
-- **Labeling**: Easily categorize tasks with a customizable labeling system.
-- **Activity History**: Keep track of all changes with a detailed Activity log for each item.
-
----
-
-## License
-
-MIT
+- **Effortless Organization** — Create isolated workspaces and manage multiple projects without clutter.
+- **Intuitive Task Management** — Break down complex workflows into actionable tasks, organize them across flexible Kanban sections, and track progress at a glance.
+- **Real-Time Collaboration** — Powered by WebSockets, see updates, notifications, and progress happen instantly across your entire team. No refreshing required.
+- **Contextual Discussions** — Keep conversations right where the work happens. Upload files, share context, and discuss directly on tasks through threaded comments.
+- **Smart Labeling** — Build a flexible categorization system with customizable labels that adapt to your team's unique workflow.
+- **Comprehensive Activity Logs** — Never lose track of what changed. Every task maintains a detailed, immutable history of all activities and updates.
+- **Granular Access Control** — Maintain absolute security with a flexible Role-Based Access Control (RBAC) system supporting Owners, Admins, Members, and Guests.
