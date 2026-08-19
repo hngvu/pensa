@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-import soqe.pensa.api.common.SecurityUtils;
+import soqe.pensa.api.common.CurrentUserProvider;
 
 import java.util.UUID;
 
@@ -19,19 +19,26 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
+    private final CurrentUserProvider currentUserProvider;
 
     @GetMapping("/me")
-    public ResponseEntity<UserResponse> getCurrentUser(@AuthenticationPrincipal Jwt jwt) {
-        UUID userId = SecurityUtils.extractUserId(jwt);
+    public ResponseEntity<UserResponse> getCurrentUser() {
+        UUID userId = currentUserProvider.getCurrentUserId();
         return ResponseEntity.ok(userService.getUserById(userId));
     }
 
     @PatchMapping("/me")
     public ResponseEntity<UserResponse> updateCurrentUser(
-            @AuthenticationPrincipal Jwt jwt,
             @Valid @RequestBody UpdateUserRequest request) {
-        UUID userId = SecurityUtils.extractUserId(jwt);
+        UUID userId = currentUserProvider.getCurrentUserId();
         return ResponseEntity.ok(userService.updateUser(userId, request));
+    }
+
+    @PostMapping("/sync")
+    public ResponseEntity<UserResponse> syncUser(
+            @AuthenticationPrincipal Jwt jwt,
+            @RequestBody SyncUserRequest request) {
+        return ResponseEntity.ok(userService.syncUser(jwt.getSubject(), request));
     }
 
     @GetMapping
@@ -66,10 +73,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{identifier}")
-    public ResponseEntity<Void> deleteUser(
-            @AuthenticationPrincipal Jwt jwt,
-            @PathVariable String identifier) {
-        UUID currentUserId = SecurityUtils.extractUserId(jwt);
+    public ResponseEntity<Void> deleteUser(@PathVariable String identifier) {
+        UUID currentUserId = currentUserProvider.getCurrentUserId();
         userService.deleteUser(identifier, currentUserId);
         return ResponseEntity.noContent().build();
     }

@@ -192,13 +192,47 @@ export default function SignUpPage() {
           >
             {step === 'details' ? 'Sign up' : 'Verify & Continue'}
           </button>
+
+          <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #DFE1E6' }}>
+            <div style={{ fontSize: '12px', color: '#5E6C84', marginBottom: '12px', fontWeight: 600 }}>DEV ACCOUNTS (AUTO-FILL)</div>
+            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+              {[
+                { email: 'admin+clerk_test@example.com', label: 'Admin' },
+                { email: 'user1+clerk_test@example.com', label: 'User 1' },
+                { email: 'user2+clerk_test@example.com', label: 'User 2' },
+              ].map((acc, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => {
+                    setEmail(acc.email);
+                    setPassword('Password123!');
+                  }}
+                  style={{
+                    background: '#F4F5F7',
+                    border: 'none',
+                    padding: '6px 12px',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                    color: '#172B4D',
+                    fontWeight: 500,
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#EBECF0'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = '#F4F5F7'}
+                >
+                  {acc.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <hr style={{ border: 'none', borderTop: '1px solid #DFE1E6', margin: '24px 0' }} />
+          
+          <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+            <a href="/sign-in" style={{ color: '#0C66E4', textDecoration: 'none', fontSize: '14px' }}>Already have an account? Log in</a>
+          </div>
         </form>
-
-
-
-        <div style={{ marginTop: '24px', fontSize: '14px', color: '#44546F' }}>
-          <a href="/signin" style={{ color: '#0C66E4', textDecoration: 'none' }}>Already have an account? Log in</a>
-        </div>
       </div>
     </div>
   );

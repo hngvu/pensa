@@ -1,13 +1,15 @@
 -- V2__seed_data.sql
 -- Seed initial data for local development
 
--- Generate a fixed UUID for the Admin user (external_id will simulate a Clerk ID)
-INSERT INTO users (id, external_id, username, email, full_name)
-VALUES ('11111111-1111-1111-1111-111111111111', 'user_clerk123456789', 'admin', 'admin@pensa.soqe', 'Admin User');
+-- Generate a fixed UUID for the Admin user (clerk_id will simulate a Clerk ID)
+INSERT INTO users (id, clerk_id, username, email, full_name, is_active, system_role, version)
+VALUES ('11111111-1111-1111-1111-111111111111', 'user_clerk123456789', 'admin', 'admin+clerk_test@example.com', 'Admin User', true, 'USER', 0);
+
+
 
 -- Workspace
-INSERT INTO workspaces (id, handle, name, slug, description, owner_id)
-VALUES ('22222222-2222-2222-2222-222222222222', 'WKSP0001', 'Pensa HQ', 'pensa-hq', 'Main workspace for the Pensa team', '11111111-1111-1111-1111-111111111111');
+INSERT INTO workspaces (id, handle, name, slug, description, visibility, owner_id, version)
+VALUES ('22222222-2222-2222-2222-222222222222', 'WKSP0001', 'Pensa HQ', 'pensa-hq', 'Main workspace for the Pensa team', 'PRIVATE', '11111111-1111-1111-1111-111111111111', 0);
 
 -- Workspace Member
 INSERT INTO workspace_members (id, workspace_id, user_id, role)

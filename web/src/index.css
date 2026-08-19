@@ -1,5 +1,5 @@
 :root {
-  /* Trello Color Palette */
+  /* Pensa Brand Color Palette */
   --trello-blue: #0C66E4;
   --trello-blue-bright: #579DFF;
   --trello-white: #FFFFFF;
@@ -11,7 +11,7 @@
   --trello-border: #DFE1E6;
   --trello-purple: #8777D9;
   --trello-green: #36B37E;
-  --trello-blue-soft: #DEEBFF;
+  --trello-blue-soft: #E0F2FE;
 
   /* Typography Rules */
   --font-display: "Charlie Display", "Helvetica Neue", Arial, sans-serif;
@@ -114,7 +114,7 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--trello-blue);
   color: var(--trello-white);
   border: none;
-  border-radius: 999px;
+  border-radius: 4px;
   min-height: 44px;
   padding: 0 var(--space-5);
   font-size: 15px;
@@ -135,7 +135,7 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--trello-white);
   color: var(--trello-ink);
   border: 1px solid var(--trello-border);
-  border-radius: 999px;
+  border-radius: 4px;
   min-height: 44px;
   padding: 0 var(--space-5);
   font-size: 15px;
@@ -155,7 +155,7 @@ h1, h2, h3, h4, h5, h6 {
 .board-card {
   background: var(--trello-white);
   border: 1px solid var(--trello-border);
-  border-radius: 20px;
+  border-radius: 12px;
   box-shadow: var(--shadow-soft);
   padding: var(--space-5);
 }
@@ -163,8 +163,8 @@ h1, h2, h3, h4, h5, h6 {
 .input {
   background: var(--trello-white);
   color: var(--trello-ink);
-  border: 1px solid var(--trello-border);
-  border-radius: 12px;
+  border: 1px solid #8c8f97;
+  border-radius: 4px;
   min-height: 44px;
   padding: var(--space-4);
   font-family: var(--font-sans);

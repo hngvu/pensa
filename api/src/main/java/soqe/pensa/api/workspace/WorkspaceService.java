@@ -71,7 +71,10 @@ public class WorkspaceService {
 
     @Transactional(readOnly = true)
     public Page<WorkspaceResponse> getWorkspaces(String name, WorkspaceVisibility visibility, Pageable pageable) {
-        Specification<Workspace> spec = Specification.where((Specification<Workspace>) null);
+        UUID currentUserId = currentUserProvider.getCurrentUserId();
+        
+        Specification<Workspace> spec = Specification.where(WorkspaceSpecification.withMember(currentUserId));
+        
         if (name != null) spec = spec.and(WorkspaceSpecification.withName(name));
         if (visibility != null) spec = spec.and(WorkspaceSpecification.withVisibility(visibility));
         
@@ -214,9 +217,25 @@ public class WorkspaceService {
     }
 
     private Workspace getWorkspaceEntity(String handle) {
-        return workspaceRepository.findByHandle(handle)
+        Workspace workspace = workspaceRepository.findByHandle(handle)
                 .orElseThrow(() -> new ResourceNotFoundException("Workspace not found"));
+        
+        checkWorkspaceAccess(workspace);
+        
+        return workspace;
     }
 
+    public void checkWorkspaceAccess(UUID workspaceId) {
+        Workspace workspace = workspaceRepository.findById(workspaceId)
+                .orElseThrow(() -> new ResourceNotFoundException("Workspace not found"));
+        checkWorkspaceAccess(workspace);
+    }
 
+    private void checkWorkspaceAccess(Workspace workspace) {
+        UUID currentUserId = currentUserProvider.getCurrentUserId();
+        boolean isMember = workspaceMemberRepository.findByWorkspaceIdAndUserId(workspace.getId(), currentUserId).isPresent();
+        if (!isMember && workspace.getVisibility() != WorkspaceVisibility.PUBLIC) {
+            throw new BusinessException("You do not have access to this workspace");
+        }
+    }
 }

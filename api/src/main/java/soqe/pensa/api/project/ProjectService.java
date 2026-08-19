@@ -217,7 +217,12 @@ public class ProjectService {
     }
 
     private Project getProjectEntity(String handle) {
-        return projectRepository.findByHandle(handle)
+        Project project = projectRepository.findByHandle(handle)
                 .orElseThrow(() -> new ResourceNotFoundException("Project not found"));
+        
+        // Ensure user has access to the workspace this project belongs to
+        workspaceService.checkWorkspaceAccess(project.getWorkspaceId());
+        
+        return project;
     }
 }

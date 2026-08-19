@@ -5,7 +5,7 @@
 ___
 
 <p align="center">
-  <strong>The intuitive workspace for ambitious teams — plan, track, and execute at the speed of thought</strong>
+  <strong>The intuitive workspace for ambitious teams — plan, track, and boost your productivity</strong>
 </p>
 
 <p align="center">
@@ -20,10 +20,10 @@ Pensa empowers modern teams to plan, track, and execute projects with absolute c
 
 ## Features
 
-- **Effortless Organization** — Create isolated workspaces and manage multiple projects without clutter.
-- **Intuitive Task Management** — Break down complex workflows into actionable tasks, organize them across flexible Kanban sections, and track progress at a glance.
-- **Real-Time Collaboration** — Powered by WebSockets, see updates, notifications, and progress happen instantly across your entire team. No refreshing required.
-- **Contextual Discussions** — Keep conversations right where the work happens. Upload files, share context, and discuss directly on tasks through threaded comments.
-- **Smart Labeling** — Build a flexible categorization system with customizable labels that adapt to your team's unique workflow.
-- **Comprehensive Activity Logs** — Never lose track of what changed. Every task maintains a detailed, immutable history of all activities and updates.
-- **Granular Access Control** — Maintain absolute security with a flexible Role-Based Access Control (RBAC) system supporting Owners, Admins, Members, and Guests.
+- **Dedicated Workspaces** — Organize multiple teams, clients, or projects in separate spaces without clutter.
+- **Visual Task Management** — Break goals down into manageable tasks, move them across customizable stages, and track progress at a glance.
+- **Instant Team Sync** — Experience seamless real-time collaboration with live updates and notifications that appear without refreshing.
+- **In-Context Discussions** — Keep conversations where the work happens. Attach files, leave feedback, and collaborate directly inside each task.
+- **Custom Tags & Filters** — Structure and prioritize work effortlessly with flexible labels tailored to your team's workflow.
+- **Clear Activity History** — Stay informed with a transparent timeline that tracks every change, update, and milestone.
+- **Flexible Team Roles** — Control access easily by assigning member roles to ensure everyone has the right permissions.

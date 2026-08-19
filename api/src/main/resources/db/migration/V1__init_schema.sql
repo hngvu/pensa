@@ -4,13 +4,17 @@
 -- 1. Users
 CREATE TABLE users (
     id UUID PRIMARY KEY,
-    external_id VARCHAR(255) NOT NULL UNIQUE, -- Clerk user ID
+    clerk_id VARCHAR(255) UNIQUE, -- Clerk user ID
     username VARCHAR(100) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
     full_name VARCHAR(255),
     avatar_url VARCHAR(1024),
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    system_role VARCHAR(50) NOT NULL DEFAULT 'USER',
     created_by UUID, last_modified_by UUID, created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_by UUID, deleted_at TIMESTAMP WITH TIME ZONE,
+    version BIGINT NOT NULL DEFAULT 0
 );
 
 -- 2. Workspaces
@@ -20,6 +24,7 @@ CREATE TABLE workspaces (
     name VARCHAR(100) NOT NULL,
     slug VARCHAR(100) NOT NULL,
     description TEXT,
+    visibility VARCHAR(20) NOT NULL DEFAULT 'PRIVATE',
     owner_id UUID NOT NULL REFERENCES users(id),
     created_by UUID, last_modified_by UUID, created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -35,6 +40,7 @@ CREATE TABLE workspace_members (
     role VARCHAR(50) NOT NULL,
     created_by UUID, last_modified_by UUID, created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version BIGINT NOT NULL DEFAULT 0,
     UNIQUE(workspace_id, user_id)
 );
 
@@ -60,6 +66,7 @@ CREATE TABLE project_members (
     role VARCHAR(50) NOT NULL,
     created_by UUID, last_modified_by UUID, created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version BIGINT NOT NULL DEFAULT 0,
     UNIQUE(project_id, user_id)
 );
 

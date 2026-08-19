@@ -40,7 +40,7 @@ public class UserService {
             String email, String username, String fullName, Boolean isActive, 
             String workspaceHandle, String projectHandle, Pageable pageable) {
         
-        Specification<User> spec = Specification.where((Specification<User>) null);
+        Specification<User> spec = Specification.where((root, query, cb) -> cb.conjunction());
         
         if (email != null) spec = spec.and(UserSpecification.withEmail(email));
         if (username != null) spec = spec.and(UserSpecification.withUsername(username));
@@ -69,6 +69,26 @@ public class UserService {
         user.setActive(true);
         
         return UserResponse.fromEntity(userRepository.save(user));
+    }
+
+    @Transactional
+    public UserResponse syncUser(String clerkId, SyncUserRequest request) {
+        return userRepository.findByClerkId(clerkId)
+                .map(UserResponse::fromEntity)
+                .orElseGet(() -> {
+                    User user = new User();
+                    user.setClerkId(clerkId);
+                    user.setEmail(request.email());
+                    // Generate username based on email prefix + random string
+                    String baseUsername = request.email() != null && request.email().contains("@") 
+                            ? request.email().split("@")[0] 
+                            : "user";
+                    user.setUsername(baseUsername + "_" + UUID.randomUUID().toString().substring(0, 5));
+                    user.setFullName(request.fullName());
+                    user.setAvatarUrl(request.avatarUrl());
+                    user.setActive(true);
+                    return UserResponse.fromEntity(userRepository.save(user));
+                });
     }
 
     @Transactional
