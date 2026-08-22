@@ -31,6 +31,9 @@ public class Project extends SoftDeletableEntity {
     @Column(name = "slug", nullable = false)
     private String slug;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "icon_url")
     private String iconUrl;
 

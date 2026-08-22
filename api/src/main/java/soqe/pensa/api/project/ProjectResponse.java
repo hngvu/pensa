@@ -8,6 +8,7 @@ public record ProjectResponse(
     String handle,
     String name,
     String slug,
+    String description,
     String iconUrl,
     String workspaceId,
     String leadId,

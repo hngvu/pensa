@@ -8,10 +8,10 @@
   
   /* Support and Utility */
   --trello-muted: #44546F;
-  --trello-border: #DFE1E6;
+  --trello-border: #dadbda;
   --trello-purple: #8777D9;
   --trello-green: #36B37E;
-  --trello-blue-soft: #E0F2FE;
+  --trello-blue-soft: #e9f2fe;
 
   /* Typography Rules */
   --font-display: "Charlie Display", "Helvetica Neue", Arial, sans-serif;
@@ -176,3 +176,5 @@ h1, h2, h3, h4, h5, h6 {
   outline: 2px solid var(--trello-blue-bright);
   border-color: transparent;
 }
+
+.trello-calendar { --rdp-cell-size: 32px; --rdp-accent-color: #0c66e4; --rdp-background-color: #e9f2ff; } .trello-calendar .rdp-day_selected, .trello-calendar .rdp-day_selected:focus-visible, .trello-calendar .rdp-day_selected:hover { border-radius: 4px; } .trello-calendar .rdp-day_range_middle { border-radius: 0; } .trello-calendar .rdp-day { border-radius: 4px; } .trello-calendar table { margin: 0 auto; }

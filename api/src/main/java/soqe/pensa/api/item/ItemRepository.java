@@ -11,5 +11,5 @@ import java.util.UUID;
 public interface ItemRepository extends JpaRepository<Item, UUID> {
     Optional<Item> findByHandle(String handle);
     boolean existsByHandle(String handle);
-    List<Item> findAllByProjectId(UUID projectId);
+    List<Item> findAllByProjectIdOrderByPositionAsc(UUID projectId);
 }

@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class LabelService {
 
     private final LabelRepository labelRepository;
+    private final ItemLabelRepository itemLabelRepository;
     private final ProjectService projectService;
 
     @Transactional
@@ -56,11 +57,40 @@ public class LabelService {
     }
 
     @Transactional
+    public void assignLabelToItem(UUID itemId, UUID labelId) {
+        Label label = labelRepository.findById(labelId)
+                .orElseThrow(() -> new ResourceNotFoundException("Label not found"));
+        ItemLabelId id = new ItemLabelId();
+        id.setItemId(itemId);
+        id.setLabelId(labelId);
+        if (!itemLabelRepository.existsById(id)) {
+            ItemLabel itemLabel = new ItemLabel();
+            itemLabel.setItemId(itemId);
+            itemLabel.setLabelId(labelId);
+            itemLabelRepository.save(itemLabel);
+        }
+    }
+
+    @Transactional
+    public void removeLabelFromItem(UUID itemId, UUID labelId) {
+        itemLabelRepository.deleteByItemIdAndLabelId(itemId, labelId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<LabelResponse> getLabelsByItem(UUID itemId) {
+        List<UUID> labelIds = itemLabelRepository.findByItemId(itemId).stream()
+                .map(ItemLabel::getLabelId)
+                .toList();
+        if (labelIds.isEmpty()) return List.of();
+        return labelRepository.findAllById(labelIds).stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
+    @Transactional
     public void deleteLabel(UUID id) {
         Label label = labelRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Label not found"));
-                
-        // Label is just AuditableEntity, so this will be a hard delete
         labelRepository.delete(label);
     }
 

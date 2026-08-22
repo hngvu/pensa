@@ -5,6 +5,7 @@ import java.time.Instant;
 
 @Builder
 public record SectionResponse(
+    String id,
     String handle,
     String name,
     String slug,

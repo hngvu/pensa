@@ -37,7 +37,7 @@ export function CreateProjectModal() {
       setName('');
       setDescription('');
       setError('');
-      navigate(`/projects/${newProject.handle}`);
+      navigate(`/p/${newProject.handle}/${newProject.slug}`);
     },
     onError: (err: any) => {
       setError(err?.response?.data?.detail || 'Failed to create project');
@@ -81,6 +81,21 @@ export function CreateProjectModal() {
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: '32px' }}>
             <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#292a2e', marginBottom: '8px' }}>
+              Project Title <span style={{ color: 'var(--trello-red)' }}>*</span>
+            </label>
+            <input
+              type="text"
+              className="input"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g. Q3 Marketing Campaign"
+              autoFocus
+              required
+            />
+          </div>
+
+          <div style={{ marginBottom: '32px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#292a2e', marginBottom: '8px' }}>
               Workspace
             </label>
             <select
@@ -99,20 +114,6 @@ export function CreateProjectModal() {
                 ))
               )}
             </select>
-          </div>
-
-          <div style={{ marginBottom: '32px' }}>
-            <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#292a2e', marginBottom: '8px' }}>
-              Project Title
-            </label>
-            <input
-              type="text"
-              className="input"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Q3 Marketing Campaign"
-              required
-            />
           </div>
 
           <div style={{ marginBottom: '32px' }}>

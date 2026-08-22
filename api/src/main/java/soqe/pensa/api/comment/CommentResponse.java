@@ -11,6 +11,8 @@ public record CommentResponse(
     boolean isEdited,
     String itemId,
     String authorId,
+    String authorName,
+    String authorAvatarUrl,
     String parentCommentId,
     Instant createdAt,
     Instant updatedAt

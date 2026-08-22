@@ -4,6 +4,5 @@ import java.util.UUID;
 
 public record UpdateProjectRequest(
     String name,
-    String iconUrl,
-    UUID leadId
+    String description
 ) {}

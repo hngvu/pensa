@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import soqe.pensa.api.user.UserService;
+import soqe.pensa.api.user.UserResponse;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -20,6 +23,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ItemService itemService;
     private final CurrentUserProvider currentUserProvider;
+    private final UserService userService;
 
     @Transactional
     public CommentResponse createComment(String itemHandle, CreateCommentRequest request) {
@@ -79,12 +83,16 @@ public class CommentService {
     }
 
     private CommentResponse mapToResponse(Comment comment) {
+        UserResponse author = userService.getUserById(comment.getAuthorId());
+        
         return CommentResponse.builder()
                 .id(comment.getId())
                 .content(comment.getContent())
                 .isEdited(comment.isEdited())
                 .itemId(comment.getItemId().toString())
                 .authorId(comment.getAuthorId().toString())
+                .authorName(author.fullName() != null ? author.fullName() : author.username())
+                .authorAvatarUrl(author.avatarUrl())
                 .parentCommentId(comment.getParentCommentId() != null ? comment.getParentCommentId().toString() : null)
                 .createdAt(comment.getCreatedAt())
                 .updatedAt(comment.getUpdatedAt())

@@ -52,6 +52,9 @@ CREATE TABLE projects (
     name VARCHAR(100) NOT NULL,
     slug VARCHAR(100) NOT NULL,
     description TEXT,
+    icon_url TEXT,
+    lead_id UUID REFERENCES users(id),
+    issue_counter INT NOT NULL DEFAULT 0,
     created_by UUID, last_modified_by UUID, created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_by UUID, deleted_at TIMESTAMP WITH TIME ZONE,
@@ -113,7 +116,9 @@ CREATE TABLE comments (
     content TEXT NOT NULL,
     is_edited BOOLEAN NOT NULL DEFAULT FALSE,
     created_by UUID, last_modified_by UUID, created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_by UUID, deleted_at TIMESTAMP WITH TIME ZONE,
+    version BIGINT NOT NULL DEFAULT 0
 );
 
 -- 9. Attachments
@@ -140,13 +145,15 @@ CREATE TABLE labels (
     background_color VARCHAR(50),
     text_color VARCHAR(50),
     created_by UUID, last_modified_by UUID, created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version BIGINT NOT NULL DEFAULT 0
 );
 
 -- 11. Item Labels
 CREATE TABLE item_labels (
     item_id UUID NOT NULL REFERENCES items(id),
     label_id UUID NOT NULL REFERENCES labels(id),
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (item_id, label_id)
 );
 
@@ -172,7 +179,9 @@ CREATE TABLE plans (
     price DECIMAL(10, 2) NOT NULL,
     features JSONB,
     created_by UUID, last_modified_by UUID, created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_by UUID, deleted_at TIMESTAMP WITH TIME ZONE,
+    version BIGINT NOT NULL DEFAULT 0
 );
 
 -- 14. Billing: Subscriptions
@@ -185,7 +194,9 @@ CREATE TABLE subscriptions (
     current_period_end TIMESTAMP WITH TIME ZONE,
     stripe_subscription_id VARCHAR(255),
     created_by UUID, last_modified_by UUID, created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_by UUID, deleted_at TIMESTAMP WITH TIME ZONE,
+    version BIGINT NOT NULL DEFAULT 0
 );
 
 -- 15. Billing: Invoices
@@ -197,7 +208,8 @@ CREATE TABLE invoices (
     due_date TIMESTAMP WITH TIME ZONE,
     paid_date TIMESTAMP WITH TIME ZONE,
     created_by UUID, last_modified_by UUID, created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version BIGINT NOT NULL DEFAULT 0
 );
 
 -- Indexes for performance

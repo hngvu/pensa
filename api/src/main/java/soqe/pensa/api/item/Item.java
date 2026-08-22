@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.DynamicUpdate;
 import soqe.pensa.api.common.SoftDeletableEntity;
 
 import java.time.Instant;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Table(name = "items")
 @Getter
 @Setter
+@DynamicUpdate
 @SQLDelete(sql = "UPDATE items SET deleted_at = CURRENT_TIMESTAMP, version = version + 1 WHERE id = ? AND version = ?")
 @SQLRestriction("deleted_at IS NULL")
 public class Item extends SoftDeletableEntity {

@@ -34,5 +34,11 @@ export function AuthSync() {
     }
   }, [isLoaded, isSignedIn, user, getToken, isSynced, setIsSynced]);
 
+  useEffect(() => {
+    if (isLoaded && !isSignedIn && isSynced) {
+      setIsSynced(false);
+    }
+  }, [isLoaded, isSignedIn, isSynced, setIsSynced]);
+
   return null;
 }

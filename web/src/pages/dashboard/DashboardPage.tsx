@@ -2,8 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import {
-  IconPlus,
   IconBriefcase,
+  IconEdit,
+  IconLock,
+  IconUser,
 } from '@tabler/icons-react';
 import { workspaceApi } from '../../api/workspaceApi';
 import { projectApi } from '../../api/projectApi';
@@ -25,115 +27,159 @@ function WorkspaceSection({ workspace }: { workspace: Workspace }) {
   return (
     <div style={{ marginBottom: '40px' }}>
       {/* Workspace Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div style={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'space-between', 
+        marginBottom: '24px',
+        height: '124px',
+        boxSizing: 'border-box',
+        borderBottom: '1px solid var(--trello-border)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', paddingBottom: '16px', paddingTop: '16px', paddingLeft: '32px' }}>
           <div
-            className="workspace-badge"
-            style={{ width: '32px', height: '32px', fontSize: '15px', borderRadius: '6px' }}
+            style={{ 
+              width: '60px', 
+              height: '60px', 
+              fontSize: '28px', 
+              fontWeight: 700,
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'linear-gradient(135deg, #0C66E4, #0055CC)',
+              color: '#FFFFFF'
+            }}
           >
             {workspace.name.charAt(0).toUpperCase()}
           </div>
-          <div>
-            <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--trello-ink)', margin: 0 }}>
-              {workspace.name}
-            </h3>
-            {workspace.description && (
-              <p style={{ fontSize: '13px', color: 'var(--trello-muted)', margin: '2px 0 0 0' }}>
-                {workspace.description}
-              </p>
-            )}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <h3 style={{ fontSize: '20px', fontWeight: 600, color: 'var(--trello-ink)', margin: 0 }}>
+                {workspace.name}
+              </h3>
+              <button 
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--trello-muted)', display: 'flex' }}
+                title="Edit workspace details"
+              >
+                <IconEdit size={16} />
+              </button>
+            </div>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--trello-muted)', fontSize: '12px' }}>
+              <IconLock size={12} />
+              <span>Private</span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Projects Grid */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))',
-          gap: '16px',
-        }}
-      >
-        {/* Project Cards */}
-        {projects.map((project) => (
-          <div
-            key={project.handle}
-            onClick={() => navigate(`/projects/${project.handle}`)}
-            style={{
-              height: '100px',
-              borderRadius: '8px',
-              padding: '12px 14px',
-              cursor: 'pointer',
-              position: 'relative',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              background: 'linear-gradient(135deg, #0C66E4, #0055CC)',
-              color: '#FFFFFF',
-              boxShadow: 'var(--shadow-soft)',
-              transition: 'transform 0.15s, box-shadow 0.15s',
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = 'var(--shadow-card)';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = 'var(--shadow-soft)';
-            }}
-          >
-            <div style={{ fontWeight: 700, fontSize: '15px', letterSpacing: '-0.2px' }}>
-              {project.name}
-            </div>
-            {project.description && (
-              <div
-                style={{
-                  fontSize: '12px',
-                  color: 'rgba(255, 255, 255, 0.8)',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {project.description}
-              </div>
-            )}
-          </div>
-        ))}
+      <div style={{ paddingLeft: '32px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', color: 'var(--trello-ink)' }}>
+          <IconUser size={20} />
+          <h4 style={{ fontSize: '16px', fontWeight: 600, margin: 0 }}>Your projects</h4>
+        </div>
 
-        {/* Create Project Card */}
+        {/* Projects Grid */}
         <div
-          onClick={() => {
-            setActiveWorkspaceHandle(workspace.handle);
-            setCreateProjectOpen(true);
-          }}
           style={{
-            height: '100px',
-            borderRadius: '8px',
-            padding: '12px 14px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            backgroundColor: 'rgba(9, 30, 66, 0.04)',
-            color: 'var(--trello-ink)',
-            fontSize: '14px',
-            fontWeight: 500,
-            border: '2px dashed var(--trello-border)',
-            transition: 'background-color 0.15s, border-color 0.15s',
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(9, 30, 66, 0.08)';
-            e.currentTarget.style.borderColor = 'var(--trello-blue)';
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(9, 30, 66, 0.04)';
-            e.currentTarget.style.borderColor = 'var(--trello-border)';
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))',
+            gap: '16px',
           }}
         >
-          <IconPlus size={18} color="var(--trello-muted)" />
-          <span>Create new project</span>
+          {/* Project Cards */}
+          {projects.map((project) => (
+            <div 
+              key={project.handle}
+              onClick={() => navigate(`/p/${project.handle}/${project.slug}`)}
+              style={{
+                height: '110px',
+                borderRadius: '12px',
+                padding: '16px',
+                cursor: 'pointer',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-end',
+                background: '#FFFFFF',
+                border: '1px solid #CBD5E1', /* Darker border */
+                boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
+                overflow: 'hidden'
+              }}
+            >
+              {/* Decorative Watermark */}
+              <div style={{
+                position: 'absolute',
+                top: '-10px',
+                right: '-5px',
+                fontSize: '100px',
+                fontWeight: 800,
+                color: 'rgba(12, 102, 228, 0.04)',
+                lineHeight: 1,
+                userSelect: 'none',
+                zIndex: 0
+              }}>
+                {project.name.charAt(0).toUpperCase()}
+              </div>
+
+              {/* Icon */}
+              <div style={{
+                position: 'absolute',
+                top: '16px',
+                left: '16px',
+                width: '32px',
+                height: '32px',
+                borderRadius: '8px',
+                background: '#F0F7FF',
+                color: '#0C66E4',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 1
+              }}>
+                <IconBriefcase size={18} />
+              </div>
+
+              {/* Content */}
+              <div style={{ zIndex: 1, position: 'relative' }}>
+                <div style={{ fontWeight: 600, fontSize: '15px', color: '#101828', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {project.name}
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* Create Project Card */}
+          <div
+            onClick={() => {
+              setActiveWorkspaceHandle(workspace.handle);
+              setCreateProjectOpen(true);
+            }}
+            style={{
+              height: '110px',
+              borderRadius: '12px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#FFFFFF',
+              border: '1px solid #CBD5E1',
+              boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
+              color: 'var(--trello-ink)',
+              fontSize: '14px',
+              fontWeight: 500,
+              transition: 'background-color 0.2s',
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(9, 30, 66, 0.04)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = '#FFFFFF';
+            }}
+          >
+            <span>Create new project</span>
+          </div>
         </div>
       </div>
     </div>
@@ -150,16 +196,6 @@ export default function DashboardPage() {
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-      {/* Top Banner / Welcome */}
-      <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: 700, color: 'var(--trello-ink)', marginBottom: '8px' }}>
-          Your Projects
-        </h1>
-        <p style={{ fontSize: '14px', color: 'var(--trello-muted)' }}>
-          Manage your team workspaces and project workflows.
-        </p>
-      </div>
-
       {isLoading ? (
         <div style={{ textAlign: 'center', padding: '40px', color: 'var(--trello-muted)' }}>
           Loading workspaces and projects...

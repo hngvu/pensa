@@ -34,15 +34,7 @@ public class SectionService {
 
         section = sectionRepository.save(section);
 
-        return SectionResponse.builder()
-                .handle(section.getHandle())
-                .name(section.getName())
-                .slug(section.getSlug())
-                .position(section.getPosition())
-                .projectId(section.getProjectId().toString())
-                .createdAt(section.getCreatedAt())
-                .updatedAt(section.getUpdatedAt())
-                .build();
+        return mapToResponse(section);
     }
 
     @Transactional(readOnly = true)
@@ -51,30 +43,14 @@ public class SectionService {
 
         return sectionRepository.findAllByProjectIdOrderByPositionAsc(projectId)
                 .stream()
-                .map(section -> SectionResponse.builder()
-                        .handle(section.getHandle())
-                        .name(section.getName())
-                        .slug(section.getSlug())
-                        .position(section.getPosition())
-                        .projectId(section.getProjectId().toString())
-                        .createdAt(section.getCreatedAt())
-                        .updatedAt(section.getUpdatedAt())
-                        .build())
+                .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public SectionResponse getSection(String handle) {
         Section section = getSectionEntity(handle);
-        return SectionResponse.builder()
-                .handle(section.getHandle())
-                .name(section.getName())
-                .slug(section.getSlug())
-                .position(section.getPosition())
-                .projectId(section.getProjectId().toString())
-                .createdAt(section.getCreatedAt())
-                .updatedAt(section.getUpdatedAt())
-                .build();
+        return mapToResponse(section);
     }
 
     @Transactional
@@ -84,15 +60,7 @@ public class SectionService {
         section.setSlug(SlugUtils.toSlug(request.name()));
         
         section = sectionRepository.save(section);
-        return SectionResponse.builder()
-                .handle(section.getHandle())
-                .name(section.getName())
-                .slug(section.getSlug())
-                .position(section.getPosition())
-                .projectId(section.getProjectId().toString())
-                .createdAt(section.getCreatedAt())
-                .updatedAt(section.getUpdatedAt())
-                .build();
+        return mapToResponse(section);
     }
 
     @Transactional
@@ -101,15 +69,7 @@ public class SectionService {
         section.setPosition(request.position());
         
         section = sectionRepository.save(section);
-        return SectionResponse.builder()
-                .handle(section.getHandle())
-                .name(section.getName())
-                .slug(section.getSlug())
-                .position(section.getPosition())
-                .projectId(section.getProjectId().toString())
-                .createdAt(section.getCreatedAt())
-                .updatedAt(section.getUpdatedAt())
-                .build();
+        return mapToResponse(section);
     }
 
     @Transactional
@@ -126,5 +86,18 @@ public class SectionService {
     private Section getSectionEntity(String handle) {
         return sectionRepository.findByHandle(handle)
                 .orElseThrow(() -> new ResourceNotFoundException("Section not found"));
+    }
+
+    private SectionResponse mapToResponse(Section section) {
+        return SectionResponse.builder()
+                .id(section.getId().toString())
+                .handle(section.getHandle())
+                .name(section.getName())
+                .slug(section.getSlug())
+                .position(section.getPosition())
+                .projectId(section.getProjectId().toString())
+                .createdAt(section.getCreatedAt())
+                .updatedAt(section.getUpdatedAt())
+                .build();
     }
 }

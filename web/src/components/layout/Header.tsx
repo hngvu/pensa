@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { UserButton } from '@clerk/clerk-react';
 import {
@@ -7,16 +7,22 @@ import {
   IconBell,
   IconHelp,
   IconFolder,
-  IconBriefcase,
+  IconBuildingCommunity,
+  IconSquare
 } from '@tabler/icons-react';
 import {
   createWorkspaceModalOpenAtom,
   createProjectModalOpenAtom,
+  createSectionModalOpenAtom
 } from '../../state/atoms';
 
 export function Header() {
   const [, setCreateWorkspaceOpen] = useAtom(createWorkspaceModalOpenAtom);
   const [, setCreateProjectOpen] = useAtom(createProjectModalOpenAtom);
+  const [, setCreateSectionOpen] = useAtom(createSectionModalOpenAtom);
+  
+    const location = useLocation();
+  const isOnBoard = location.pathname.startsWith('/p/') || location.pathname.startsWith('/i/');
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -96,6 +102,25 @@ export function Header() {
 
           {isCreateOpen && (
             <div className="dropdown-menu" style={{ width: 260, right: 0, left: 'auto', marginTop: '6px' }}>
+              
+              {isOnBoard && (
+                <button
+                  className="dropdown-item"
+                  onClick={() => {
+                    setIsCreateOpen(false);
+                    setCreateSectionOpen(true);
+                  }}
+                >
+                  <IconSquare size={18} color="var(--trello-green)" />
+                  <div>
+                    <div style={{ fontWeight: 600 }}>Create Section</div>
+                    <div className="dropdown-item-desc">
+                      Add a new section to organize your tasks.
+                    </div>
+                  </div>
+                </button>
+              )}
+
               <button
                 className="dropdown-item"
                 onClick={() => {
@@ -119,7 +144,7 @@ export function Header() {
                   setCreateWorkspaceOpen(true);
                 }}
               >
-                <IconBriefcase size={18} color="var(--trello-purple)" />
+                <IconBuildingCommunity size={18} color="var(--trello-purple)" />
                 <div>
                   <div style={{ fontWeight: 600 }}>Create Workspace</div>
                   <div className="dropdown-item-desc">

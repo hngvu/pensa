@@ -11,5 +11,7 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificationExecutor<User> {
     Optional<User> findByEmail(String email);
     Optional<User> findByUsername(String username);
+
+    @org.springframework.data.jpa.repository.QueryHints(@jakarta.persistence.QueryHint(name = "org.hibernate.flushMode", value = "COMMIT"))
     Optional<User> findByClerkId(String clerkId);
 }

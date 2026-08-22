@@ -154,3 +154,6 @@
 - [ ] Viáº¿t `Dockerfile` cho Backend vÃ  Frontend.
 - [ ] Viáº¿t `docker-compose.yml` cháº¡y full stack (API, Web, PostgreSQL).
 - [ ] Setup CI/CD (GitHub Actions).
+
+## Future Enhancements (Backlog)
+- [ ] Thêm s? th? t? (sequence_number) t? tang vào Item slug d? gi?ng Trello (ví d?: 123-ten-the).

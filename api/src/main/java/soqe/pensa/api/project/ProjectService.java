@@ -43,8 +43,8 @@ public class ProjectService {
         project.setName(request.name());
         project.setHandle(handle);
         project.setSlug(SlugUtils.toSlug(request.name()));
-        project.setIconUrl(request.iconUrl());
-        project.setLeadId(request.leadId() != null ? request.leadId() : currentUser.getId());
+        project.setDescription(request.description());
+        project.setLeadId(currentUser.getId());
         project.setIssueCounter(0);
         
         project = projectRepository.save(project);
@@ -59,6 +59,7 @@ public class ProjectService {
                 .handle(project.getHandle())
                 .name(project.getName())
                 .slug(project.getSlug())
+                .description(project.getDescription())
                 .iconUrl(project.getIconUrl())
                 .workspaceId(project.getWorkspaceId().toString())
                 .leadId(project.getLeadId() != null ? project.getLeadId().toString() : null)
@@ -79,6 +80,7 @@ public class ProjectService {
                 .handle(project.getHandle())
                 .name(project.getName())
                 .slug(project.getSlug())
+                .description(project.getDescription())
                 .iconUrl(project.getIconUrl())
                 .workspaceId(project.getWorkspaceId().toString())
                 .leadId(project.getLeadId() != null ? project.getLeadId().toString() : null)
@@ -95,6 +97,7 @@ public class ProjectService {
                 .handle(project.getHandle())
                 .name(project.getName())
                 .slug(project.getSlug())
+                .description(project.getDescription())
                 .iconUrl(project.getIconUrl())
                 .workspaceId(project.getWorkspaceId().toString())
                 .leadId(project.getLeadId() != null ? project.getLeadId().toString() : null)
@@ -112,8 +115,7 @@ public class ProjectService {
             project.setName(request.name());
             project.setSlug(SlugUtils.toSlug(request.name()));
         }
-        if (request.iconUrl() != null) project.setIconUrl(request.iconUrl());
-        if (request.leadId() != null) project.setLeadId(request.leadId());
+        if (request.description() != null) project.setDescription(request.description());
 
         project = projectRepository.save(project);
 
@@ -121,6 +123,7 @@ public class ProjectService {
                 .handle(project.getHandle())
                 .name(project.getName())
                 .slug(project.getSlug())
+                .description(project.getDescription())
                 .iconUrl(project.getIconUrl())
                 .workspaceId(project.getWorkspaceId().toString())
                 .leadId(project.getLeadId() != null ? project.getLeadId().toString() : null)

@@ -10,6 +10,9 @@ import soqe.pensa.api.project.ProjectService;
 import soqe.pensa.api.section.SectionResponse;
 import soqe.pensa.api.section.SectionService;
 
+import soqe.pensa.api.project.ProjectRepository;
+import soqe.pensa.api.project.Project;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -21,6 +24,8 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final SectionService sectionService;
     private final ProjectService projectService;
+    private final ProjectRepository projectRepository;
+    private final soqe.pensa.api.label.LabelService labelService;
 
     @Transactional
     public ItemResponse createItem(CreateItemRequest request) {
@@ -51,7 +56,7 @@ public class ItemService {
     public List<ItemResponse> getItemsByProject(String projectHandle) {
         UUID projectId = projectService.getProjectId(projectHandle);
 
-        return itemRepository.findAllByProjectId(projectId)
+        return itemRepository.findAllByProjectIdOrderByPositionAsc(projectId)
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
@@ -76,7 +81,7 @@ public class ItemService {
         if (request.startAt() != null) item.setStartAt(request.startAt());
         if (request.dueAt() != null) item.setDueAt(request.dueAt());
         
-        if (request.sectionHandle() != null) {
+        if (request.sectionHandle() != null && !request.sectionHandle().isBlank()) {
             UUID sectionId = sectionService.getSectionId(request.sectionHandle());
             item.setSectionId(sectionId);
         }
@@ -91,6 +96,18 @@ public class ItemService {
         itemRepository.delete(item);
     }
 
+    @Transactional
+    public void assignLabel(String handle, UUID labelId) {
+        Item item = getItemEntity(handle);
+        labelService.assignLabelToItem(item.getId(), labelId);
+    }
+
+    @Transactional
+    public void removeLabel(String handle, UUID labelId) {
+        Item item = getItemEntity(handle);
+        labelService.removeLabelFromItem(item.getId(), labelId);
+    }
+
     @Transactional(readOnly = true)
     public UUID getItemId(String handle) {
         return getItemEntity(handle).getId();
@@ -102,6 +119,8 @@ public class ItemService {
     }
 
     private ItemResponse mapToResponse(Item item) {
+        Project project = projectRepository.findById(item.getProjectId())
+                .orElseThrow(() -> new ResourceNotFoundException("Project not found"));
         return ItemResponse.builder()
                 .handle(item.getHandle())
                 .slug(item.getSlug())
@@ -110,10 +129,13 @@ public class ItemService {
                 .position(item.getPosition())
                 .isCompleted(item.isCompleted())
                 .projectId(item.getProjectId().toString())
+                .projectHandle(project.getHandle())
+                .projectSlug(project.getSlug())
                 .sectionId(item.getSectionId().toString())
                 .parentItemId(item.getParentItemId() != null ? item.getParentItemId().toString() : null)
                 .startAt(item.getStartAt())
                 .dueAt(item.getDueAt())
+                .labels(labelService.getLabelsByItem(item.getId()))
                 .createdAt(item.getCreatedAt())
                 .updatedAt(item.getUpdatedAt())
                 .build();
